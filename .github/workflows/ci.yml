@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for backend project
+        id: project
+        run: |
+          if [ -f pyproject.toml ]; then echo "exists=true" >> "$GITHUB_OUTPUT"; else echo "exists=false" >> "$GITHUB_OUTPUT"; fi
+      - uses: astral-sh/setup-uv@v6
+        if: steps.project.outputs.exists == 'true'
+      - name: Install
+        if: steps.project.outputs.exists == 'true'
+        run: uv sync --locked
+      - name: Lint
+        if: steps.project.outputs.exists == 'true'
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+      - name: Test
+        if: steps.project.outputs.exists == 'true'
+        run: uv run pytest
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for frontend project
+        id: project
+        run: |
+          if [ -f package.json ]; then echo "exists=true" >> "$GITHUB_OUTPUT"; else echo "exists=false" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-node@v4
+        if: steps.project.outputs.exists == 'true'
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install
+        if: steps.project.outputs.exists == 'true'
+        run: npm ci
+      - name: Lint
+        if: steps.project.outputs.exists == 'true'
+        run: npm run lint
+      - name: Type check
+        if: steps.project.outputs.exists == 'true'
+        run: npx tsc --noEmit
+      - name: Build
+        if: steps.project.outputs.exists == 'true'
+        run: npm run build
