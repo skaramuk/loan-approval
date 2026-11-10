@@ -444,6 +444,7 @@ Her faz ayrı `feature/*` dallarında yürütülür ve kabul ölçütleri sağla
 3. ~~**Kaggle veri seti bağlantısı ve lisansı.**~~ Çözüldü (10 Kasım 2026): `taweilo/loan-approval-classification-data`, Apache 2.0 — bkz. Bölüm 2.
 4. **Backend barındırma servisi.** Faz 6'da güncel fiyat ve ücretsiz katmanlara göre seçilecek.
 5. **Google ile giriş.** v1'de yok; istenirse Faz 5'te eklenebilir.
+6. **Etiketin yönü (Faz 1 EDA bulgusu, 10 Kasım 2026).** Veri seti `loan_status = 1` değerini "onay" olarak belgeliyor, ancak özelliklerle ilişkisi temerrüt etiketi gibi davranıyor: faiz oranı ve kredi/gelir oranı arttıkça, gelir azaldıkça "onay" oranı **artıyor**; kiracılar ev sahiplerinden daha sık "onaylanıyor". Model bunu aynen öğrenir ve arayüzde "geliriniz yüksek olduğu için onay olasılığınız düştü" gibi sezgiye ters açıklamalar çıkar. Seçenekler: (a) etiketi belgelendiği gibi kullanıp sınırlamayı model kartında ve arayüzde açıkça belirtmek, (b) ürünü "risk değerlendirmesi" olarak yeniden konumlandırmak, (c) farklı bir veri setine geçmek. Ayrıntı: `ml/notebooks/01_eda.ipynb`, Bölüm 7. **Faz 2'ye geçmeden önce karar verilmeli.**
 
 ---
 
