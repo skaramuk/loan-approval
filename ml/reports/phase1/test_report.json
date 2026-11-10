@@ -1,0 +1,104 @@
+{
+  "data_sha256": "67cca604cd71cbd605014f721d078d20d44d726d625945591450733535f9868a",
+  "rows": {
+    "train": 31493,
+    "val": 6748,
+    "test": 6749
+  },
+  "model": "xgboost",
+  "calibration": "Kalibrasyonsuz",
+  "threshold": 0.46085530519485474,
+  "xgboost_params": {
+    "n_estimators": 650,
+    "learning_rate": 0.12337908048803907,
+    "max_depth": 7,
+    "min_child_weight": 6.070113699772554,
+    "subsample": 0.8908461498260349,
+    "colsample_bytree": 0.6238897070497358,
+    "gamma": 1.0103335992309197,
+    "reg_lambda": 0.47005720045566757,
+    "reg_alpha": 0.009269738288123927,
+    "scale_pos_weight": 1.0
+  },
+  "test": {
+    "overall": {
+      "n": 6749,
+      "positive_rate": 0.22225514891094977,
+      "roc_auc": 0.9781827649711057,
+      "pr_auc": 0.9399966984059894,
+      "f1": 0.8455678670360111,
+      "precision": 0.8796829971181557,
+      "recall": 0.814,
+      "brier": 0.04691721871495247,
+      "confusion_matrix": {
+        "tn": 5082,
+        "fp": 167,
+        "fn": 279,
+        "tp": 1221
+      }
+    },
+    "no_default": {
+      "n": 3331,
+      "positive_rate": 0.4503152206544581,
+      "roc_auc": 0.9374574913526307,
+      "pr_auc": 0.9399971994164279,
+      "f1": 0.8455678670360111,
+      "precision": 0.8796829971181557,
+      "recall": 0.814,
+      "brier": 0.09505937248468399,
+      "confusion_matrix": {
+        "tn": 1664,
+        "fp": 167,
+        "fn": 279,
+        "tp": 1221
+      }
+    }
+  },
+  "fairness": {
+    "overall": {
+      "female": {
+        "n": 2983.0,
+        "gerçek onay oranı": 0.21521957760643648,
+        "tahmini onay oranı": 0.20046932618169627,
+        "ortalama olasılık": 0.21210584044456482,
+        "TPR (recall)": 0.8115264797507789,
+        "FPR": 0.03289192652712516,
+        "precision": 0.8712374581939799,
+        "ROC-AUC": 0.9789263847358678
+      },
+      "male": {
+        "n": 3766.0,
+        "gerçek onay oranı": 0.22782793414763675,
+        "tahmini onay oranı": 0.2097716409984068,
+        "ortalama olasılık": 0.2239079475402832,
+        "TPR (recall)": 0.8158508158508159,
+        "FPR": 0.030949105914718018,
+        "precision": 0.8860759493670886,
+        "ROC-AUC": 0.9775877492521234
+      }
+    },
+    "no_default": {
+      "female": {
+        "n": 1447.0,
+        "gerçek onay oranı": 0.44367657221838286,
+        "tahmini onay oranı": 0.4132688320663442,
+        "ortalama olasılık": 0.4368469715118408,
+        "TPR (recall)": 0.8115264797507789,
+        "FPR": 0.09565217391304348,
+        "precision": 0.8712374581939799,
+        "ROC-AUC": 0.9387163561076605
+      },
+      "male": {
+        "n": 1884.0,
+        "gerçek onay oranı": 0.4554140127388535,
+        "tahmini onay oranı": 0.41932059447983017,
+        "ortalama olasılık": 0.44717907905578613,
+        "TPR (recall)": 0.8158508158508159,
+        "FPR": 0.08771929824561403,
+        "precision": 0.8860759493670886,
+        "ROC-AUC": 0.9364801864801864
+      }
+    },
+    "disparate_impact_ratio": 0.9556550410129976
+  }
+}

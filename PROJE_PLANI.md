@@ -68,6 +68,7 @@
 4. **Cinsiyet modele girmeyecek.** Kredi kararında cinsiyet kullanmak etik ve hukuki açıdan sorunludur. Kolon yalnızca test aşamasında adalet denetimi için kullanılacak (bkz. 3.5).
 5. **Veri genç profile ağırlıklı** (medyan yaş 26). Yaşlı veya çok yüksek gelirli profillerde model daha az güvenilirdir; arayüz bu durumda uyarı gösterir (bkz. 5.3).
 6. **Para birimi USD, kredi skoru 390–850 ölçeğinde.** v1'de değerler bu haliyle alınır ve arayüzde açıkça belirtilir (bkz. Bölüm 12, açık konu 1).
+7. **Etiketin yönü sezgiye ters.** Veride faiz oranı ve kredi/gelir oranı arttıkça, gelir azaldıkça "onay" oranı artar; kiracılar ev sahiplerinden daha sık "onaylanır". Model bunu aynen öğrenir. Etiket belgelendiği gibi kullanılır (karar: Bölüm 12 madde 6); bu sınırlama model kartında (`/model`) ve sonuç ekranındaki faktör açıklamalarının yanında açıkça belirtilir.
 
 ---
 
@@ -431,6 +432,7 @@ Her faz ayrı `feature/*` dallarında yürütülür ve kabul ölçütleri sağla
 
 - Arayüzde kalıcı uyarı: "Bu araç bir ön değerlendirme sunar. Gerçek bir kredi başvurusu ya da banka kararı değildir."
 - Model açık bir veri setiyle eğitilmiştir; Türkiye'deki bankaların kriterlerini yansıtmaz.
+- Veri seti sentetiktir ve bazı ilişkiler gerçek kredi kararlarından beklenenin tersidir (ör. düşük gelir ve yüksek faiz "onay" olasılığını artırır). Sonuç ekranında ve model kartında şu anlamda bir uyarı yer alır: "Faktörler modelin eğitildiği veri setindeki örüntüleri yansıtır; gerçek bir bankanın değerlendirme ölçütleriyle örtüşmeyebilir."
 - Kullanıcının girdiği finansal bilgiler hesabıyla ilişkilendirildiği için kişisel veridir. Gizlilik politikası ve KVKK aydınlatma metni yayınlanır; kullanıcı verilerini silebilir.
 - Yalnızca gerekli veri toplanır: ad-soyad zorunlu değildir, kimlik numarası veya iletişim bilgisi istenmez.
 - Yasal metinler taslak olarak hazırlanır; canlıya almadan önce bir hukukçunun gözden geçirmesi önerilir.
@@ -444,6 +446,7 @@ Her faz ayrı `feature/*` dallarında yürütülür ve kabul ölçütleri sağla
 3. ~~**Kaggle veri seti bağlantısı ve lisansı.**~~ Çözüldü (10 Kasım 2026): `taweilo/loan-approval-classification-data`, Apache 2.0 — bkz. Bölüm 2.
 4. **Backend barındırma servisi.** Faz 6'da güncel fiyat ve ücretsiz katmanlara göre seçilecek.
 5. **Google ile giriş.** v1'de yok; istenirse Faz 5'te eklenebilir.
+6. ~~**Etiketin yönü.**~~ **Karar (Semih, 10 Kasım 2026): seçenek (a)** — etiket belgelendiği gibi (1 = onay) kullanılır; sınırlama model kartında ve arayüzde açıkça belirtilir (bkz. Bölüm 2 madde 7 ve Bölüm 11). Bulgu: Veri seti `loan_status = 1` değerini "onay" olarak belgeliyor, ancak özelliklerle ilişkisi temerrüt etiketi gibi davranıyor: faiz oranı ve kredi/gelir oranı arttıkça, gelir azaldıkça "onay" oranı **artıyor**; kiracılar ev sahiplerinden daha sık "onaylanıyor". Model bunu aynen öğrenir ve arayüzde "geliriniz yüksek olduğu için onay olasılığınız düştü" gibi sezgiye ters açıklamalar çıkar. Seçenekler: (a) etiketi belgelendiği gibi kullanıp sınırlamayı model kartında ve arayüzde açıkça belirtmek, (b) ürünü "risk değerlendirmesi" olarak yeniden konumlandırmak, (c) farklı bir veri setine geçmek. Ayrıntı: `ml/notebooks/01_eda.ipynb`, Bölüm 7.
 
 ---
 

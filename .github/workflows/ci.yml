@@ -34,6 +34,25 @@ jobs:
       - name: Test
         if: steps.project.outputs.exists == 'true'
         run: uv run pytest
+      - name: Build Docker image
+        if: steps.project.outputs.exists == 'true' && hashFiles('backend/Dockerfile') != ''
+        run: docker build -t loan-approval-backend .
+      - name: Smoke test Docker image
+        if: steps.project.outputs.exists == 'true' && hashFiles('backend/Dockerfile') != ''
+        run: |
+          docker run -d --name api -p 8000:8000 loan-approval-backend
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8000/health; then break; fi
+            sleep 2
+          done
+          curl -fsS http://127.0.0.1:8000/health | grep -q '"model_loaded":true'
+          curl -fsS -X POST http://127.0.0.1:8000/api/v1/predictions \
+            -H 'Content-Type: application/json' \
+            -d '{"person_age":28,"person_education":"Bachelor","person_income":60000,"person_emp_exp":5,"person_home_ownership":"RENT","loan_amnt":12000,"loan_intent":"PERSONAL","loan_int_rate":12.5,"cb_person_cred_hist_length":6,"credit_score":640,"previous_loan_defaults_on_file":false}' \
+            | grep -q '"model_version":"1.0.0"'
+      - name: Show container logs
+        if: failure()
+        run: docker logs api || true
 
   frontend:
     name: Frontend
