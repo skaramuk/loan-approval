@@ -307,6 +307,7 @@ Next.js (App Router, TypeScript), Tailwind CSS, shadcn/ui, react-hook-form + zod
 
 - Hedef his: güven veren, sade, modern bir finans ürünü. Hazır şablon görünümünden kaçınılır.
 - Tasarım kararları (renk paleti, tipografi, boşluk ölçeği) Faz 5'in başında bir kez belirlenir ve tüm sayfalarda tutarlı uygulanır.
+- **Tasarım sistemi (Faz 5 başında belirlendi, `frontend/app/globals.css`):** zemin sıcak kâğıt beyazı, ana renk koyu mürekkep mavisi; karar renkleri yeşil (olumlu) / kehribar (sınırda) / kırmızı (olumsuz). Başlıklar Manrope, gövde Inter, rakamlar eşit genişlikli. Köşe yarıçapı 0,75rem; düğme ve giriş alanları dokunmatik için en az 40–44 px yüksekliğinde. Canlı önizleme: `/tasarim` (arama motorlarına kapalı).
 - Açık ve koyu tema.
 - Tam duyarlı (mobil öncelikli); form mobilde rahat doldurulabilmelidir.
 - Her veri ekranında yükleniyor, boş ve hata durumları tasarlanır.

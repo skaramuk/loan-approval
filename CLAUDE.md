@@ -39,6 +39,14 @@ Kredi ön değerlendirme ürünü (monorepo: `ml/`, `backend/`, `frontend/`). Te
 - Migration: `uv run alembic upgrade head` (`backend/.env` içinde `DATABASE_URL` gerekir). Yeni tabloda RLS aynı migration'da açılır.
 - Supabase geliştirme projesi: `loan-approval-dev`, ref `ddyrkkorvilbgzcmezkh` (Frankfurt).
 
+## Frontend
+
+- Next.js 16 (App Router), Tailwind v4, shadcn/ui (Radix tabanı, `nova` ön ayarı). Kod yazmadan önce `frontend/AGENTS.md` uyarınca `frontend/node_modules/next/dist/docs/` altındaki ilgili rehbere bak; Next 16'da middleware'in adı `proxy.ts`.
+- Tüm arayüz metinleri `frontend/lib/metinler.ts` içindedir; bileşenlere doğrudan Türkçe metin yazılmaz.
+- Sayı/tarih biçimi `frontend/lib/bicim.ts` (`tr-TR`); renk ve tipografi belirteçleri `frontend/app/globals.css`.
+- Karar hiçbir zaman yalnızca renkle gösterilmez; metin ve ikon eşlik eder.
+- Tema `<html>` üzerindeki `dark` sınıfıyla yönetilir (`lib/theme.ts`, `components/theme-toggle.tsx`).
+
 ## Git
 
 - Dallar: `main` (korumalı) · `dev` · `feature/<konu>` · `fix/<konu>`. Akış: `feature/*` → PR → `dev` → PR → `main` + etiket.
@@ -68,6 +76,8 @@ uv run ruff check .; uv run ruff format --check .; uv run pytest
 uv run uvicorn app.main:app --reload          # http://127.0.0.1:8000/docs
 docker build -t loan-approval-backend .; docker run --rm -p 8000:8000 loan-approval-backend
 
-# frontend (Faz 5+)
-# cd frontend; npm run lint; npx tsc --noEmit; npm run build
+# frontend
+cd frontend; npm install
+npm run dev                                   # http://localhost:3000
+npm run lint; npx tsc --noEmit; npm run build
 ```
