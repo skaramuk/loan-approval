@@ -27,6 +27,13 @@ Kredi ön değerlendirme ürünü (monorepo: `ml/`, `backend/`, `frontend/`). Te
 - Backend, `metadata.json` içindeki `scikit-learn` / `xgboost` sürümleri kurulu olanla eşleşmezse modeli yüklemez.
 - Faktörlerdeki `impact`, o tahmindeki toplam mutlak katkı içindeki paydır (0–1); `contribution` log-odds cinsinden işaretli katkıdır.
 
+## Backend
+
+- Girdi sınırları ve izinli değerler `metadata.json`'dan okunur (`app/schemas/prediction.py`); koda sabit yazılmaz.
+- Tüm hatalar `{"error": {"code", "message", "details"}}` biçimindedir; mesajlar Türkçedir (`app/core/errors.py`).
+- Loglara kullanıcı girdisi (gelir, skor vb.) yazılmaz.
+- İstek şeması bilinmeyen alanları reddeder (`extra="forbid"`); `person_gender` gönderilirse 422 döner.
+
 ## Git
 
 - Dallar: `main` (korumalı) · `dev` · `feature/<konu>` · `fix/<konu>`. Akış: `feature/*` → PR → `dev` → PR → `main` + etiket.
@@ -53,6 +60,8 @@ uv run python src/train.py   # writes backend/app/ml_artifacts/v<version>/ (mode
 # backend
 cd backend; uv sync
 uv run ruff check .; uv run ruff format --check .; uv run pytest
+uv run uvicorn app.main:app --reload          # http://127.0.0.1:8000/docs
+docker build -t loan-approval-backend .; docker run --rm -p 8000:8000 loan-approval-backend
 
 # frontend (Faz 5+)
 # cd frontend; npm run lint; npx tsc --noEmit; npm run build

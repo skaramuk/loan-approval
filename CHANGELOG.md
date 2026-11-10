@@ -13,3 +13,6 @@ Bu projedeki önemli değişiklikler bu dosyada tutulur. Biçim [Keep a Changelo
 - Faz 2: `ml/src/train.py` (tek komutla model paketi), model v1.0.0 paketi
   (`backend/app/ml_artifacts/v1.0.0/`), backend projesi (uv) ile model yükleme, tahmin ve
   açıklama servisleri ve birim testleri.
+- Faz 3: FastAPI uygulaması — `GET /health`, `GET /api/v1/model`, `POST /api/v1/predictions`
+  (henüz kayıtsız ve girişsiz), metadata'dan okunan doğrulama kuralları, Türkçe ve tek biçimli
+  hata yanıtları, CORS, Dockerfile ve CI'da Docker imajı duman testi.
