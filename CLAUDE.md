@@ -20,6 +20,13 @@ Kredi ön değerlendirme ürünü (monorepo: `ml/`, `backend/`, `frontend/`). Te
 - `scikit-learn` ve `xgboost` sürümleri `ml/` ve `backend/` ortamlarında aynı olmalıdır.
 - Yeni davranış = yeni test. Commit öncesi lint ve testler çalıştırılır.
 
+## Model paketi
+
+- Canlıya giden model her zaman `ml/src/train.py` çıktısıdır; `model.joblib` elle değiştirilmez.
+- Veri, temizlik, özellikler veya hiperparametreler değişirse `MODEL_VERSION` artırılır ve yeni `v<version>/` klasörü üretilir.
+- Backend, `metadata.json` içindeki `scikit-learn` / `xgboost` sürümleri kurulu olanla eşleşmezse modeli yüklemez.
+- Faktörlerdeki `impact`, o tahmindeki toplam mutlak katkı içindeki paydır (0–1); `contribution` log-odds cinsinden işaretli katkıdır.
+
 ## Git
 
 - Dallar: `main` (korumalı) · `dev` · `feature/<konu>` · `fix/<konu>`. Akış: `feature/*` → PR → `dev` → PR → `main` + etiket.
@@ -41,10 +48,11 @@ Henüz kurulmamış bölümler ilgili fazda eklenecek.
 cd ml; uv sync
 uv run ruff check src; uv run ruff format --check src
 uv run jupyter nbconvert --to notebook --execute --inplace notebooks/01_eda.ipynb
-# Faz 2: uv run python src/train.py
+uv run python src/train.py   # writes backend/app/ml_artifacts/v<version>/ (model.joblib + metadata.json)
 
-# backend (Faz 3+)
-# cd backend; uv run ruff check .; uv run ruff format --check .; uv run pytest
+# backend
+cd backend; uv sync
+uv run ruff check .; uv run ruff format --check .; uv run pytest
 
 # frontend (Faz 5+)
 # cd frontend; npm run lint; npx tsc --noEmit; npm run build

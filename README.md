@@ -4,7 +4,7 @@ Kişisel ve kredi bilgilerine göre bir kredi başvurusunun onaylanma olasılı�
 
 > **Uyarı:** Bu araç bir ön değerlendirme sunar. Gerçek bir kredi başvurusu ya da banka kararı değildir. Model açık bir veri setiyle eğitilmiştir ve Türkiye'deki bankaların kriterlerini yansıtmaz.
 
-**Durum:** Faz 0 (kurulum) — ayrıntılı plan için [PROJE_PLANI.md](PROJE_PLANI.md).
+**Durum:** Faz 2 tamamlandı (model paketi hazır); sırada backend API — ayrıntılı plan için [PROJE_PLANI.md](PROJE_PLANI.md).
 
 ## Yapı
 
@@ -31,4 +31,18 @@ Dosya değiştirilmeden repoda tutulur.
 
 ## Geliştirme
 
-Kurulum ve çalıştırma adımları ilgili fazlar tamamlandıkça eklenecektir.
+Gereksinim: [uv](https://docs.astral.sh/uv/) (Python 3.13'ü kendisi kurar).
+
+```powershell
+# Modeli yeniden eğit ve paketle
+cd ml
+uv sync
+uv run python src/train.py
+
+# Backend testleri
+cd ../backend
+uv sync
+uv run pytest
+```
+
+Analiz notebook'ları `ml/notebooks/` altındadır. Frontend ve API çalıştırma adımları ilgili fazlar tamamlandıkça eklenecektir.
