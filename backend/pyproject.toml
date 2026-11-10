@@ -4,10 +4,13 @@ version = "0.1.0"
 description = "FastAPI backend for the Loan Approval project"
 requires-python = ">=3.13,<3.14"
 dependencies = [
+    "fastapi>=0.162.3",
     "joblib>=1.6.0",
     "numpy>=2.5.4",
     "pandas>=3.1.1",
+    "pydantic-settings>=2.16.2",
     "scikit-learn==1.9.1",
+    "uvicorn[standard]>=0.54.0",
     "xgboost==3.4.1",
 ]
 
@@ -27,6 +30,7 @@ select = ["E", "F", "I", "UP", "B"]
 
 [dependency-groups]
 dev = [
+    "httpx2>=2.16.0",
     "pytest>=9.2.0",
     "ruff>=0.17.4",
 ]

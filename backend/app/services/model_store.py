@@ -40,13 +40,13 @@ class ModelBundle:
         return self.metadata["features"]["model_inputs"]
 
 
-def load_model(
+def load_metadata(
     model_version: str = DEFAULT_MODEL_VERSION, artifacts_root: Path = ARTIFACTS_ROOT
-) -> ModelBundle:
-    directory = artifacts_root / f"v{model_version}"
-    model_path, metadata_path = directory / "model.joblib", directory / "metadata.json"
-    if not model_path.is_file() or not metadata_path.is_file():
-        raise ModelLoadError(f"Model package not found in {directory}")
+) -> dict[str, Any]:
+    """Read and sanity-check metadata.json without loading the model itself."""
+    metadata_path = artifacts_root / f"v{model_version}" / "metadata.json"
+    if not metadata_path.is_file():
+        raise ModelLoadError(f"Model package not found in {metadata_path.parent}")
 
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
     if metadata.get("model_version") != model_version:
@@ -54,6 +54,17 @@ def load_model(
             f"metadata.json declares version {metadata.get('model_version')!r}, "
             f"expected {model_version!r}"
         )
+    return metadata
+
+
+def load_model(
+    model_version: str = DEFAULT_MODEL_VERSION, artifacts_root: Path = ARTIFACTS_ROOT
+) -> ModelBundle:
+    metadata = load_metadata(model_version, artifacts_root)
+    model_path = artifacts_root / f"v{model_version}" / "model.joblib"
+    if not model_path.is_file():
+        raise ModelLoadError(f"Model package not found in {model_path.parent}")
+
     for library in PINNED_LIBRARIES:
         trained_with, installed = metadata["libraries"][library], version(library)
         if trained_with != installed:
