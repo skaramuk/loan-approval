@@ -36,8 +36,8 @@
 
 ## 2. Veri seti
 
-**Dosya:** `loan_data.csv` (şu an proje kökünde; Faz 0'da `ml/data/raw/` altına taşınacak)
-**Kaynak:** Kaggle — _bağlantı ve lisans bilgisi README'ye eklenecek (Semih sağlayacak)_
+**Dosya:** `ml/data/raw/loan_data.csv`
+**Kaynak:** Kaggle — [Loan Approval Classification Dataset](https://www.kaggle.com/datasets/taweilo/loan-approval-classification-data) (Ta-wei Lo), lisans **Apache 2.0**; dosya repoda tutulur.
 **Boyut:** 45.000 satır, 14 kolon (13 özellik + hedef). Eksik değer yok, tekrar eden satır yok.
 **SHA-256 (ilk 16 karakter):** `67cca604cd71cbd6` — veri değişirse model versiyonu da değişmelidir.
 
@@ -441,7 +441,7 @@ Her faz ayrı `feature/*` dallarında yürütülür ve kabul ölçütleri sağla
 
 1. **Para birimi ve kredi skoru ölçeği.** v1 planı: USD ve 390–850 ölçeği, arayüzde açıkça etiketli. Alternatif: TL girişi alıp kurla çevirmek — ancak Türkiye'deki gelir dağılımı ve Findeks skoru (1–1900) veri setiyle örtüşmediği için tahminler yanıltıcı olur. Öneri: v1'de USD ile kal.
 2. **Marka adı ve alan adı.** "Loan Approval" çalışma adı; canlıya almadan önce kesinleşmeli.
-3. **Kaggle veri seti bağlantısı ve lisansı.** README ve veri politikası için gerekli.
+3. ~~**Kaggle veri seti bağlantısı ve lisansı.**~~ Çözüldü (10 Kasım 2026): `taweilo/loan-approval-classification-data`, Apache 2.0 — bkz. Bölüm 2.
 4. **Backend barındırma servisi.** Faz 6'da güncel fiyat ve ücretsiz katmanlara göre seçilecek.
 5. **Google ile giriş.** v1'de yok; istenirse Faz 5'te eklenebilir.
 
