@@ -33,6 +33,11 @@ Kredi ön değerlendirme ürünü (monorepo: `ml/`, `backend/`, `frontend/`). Te
 - Tüm hatalar `{"error": {"code", "message", "details"}}` biçimindedir; mesajlar Türkçedir (`app/core/errors.py`).
 - Loglara kullanıcı girdisi (gelir, skor vb.) yazılmaz.
 - İstek şeması bilinmeyen alanları reddeder (`extra="forbid"`); `person_gender` gönderilirse 422 döner.
+- Kullanıcı kimliği yalnızca doğrulanmış token'ın `sub` alanından gelir (`app/api/deps.py`).
+- Backend veritabanına RLS'i aşan sunucu rolüyle bağlanır: `Prediction` üzerindeki **her sorgu `user_id` ile filtrelenmelidir** (`app/services/history.py`). Başkasının kaydı için 404 döner.
+- Testler SQLite ve yerel üretilmiş ES256 anahtarıyla çalışır; gerçek veritabanına ya da Supabase'e bağlanmaz.
+- Migration: `uv run alembic upgrade head` (`backend/.env` içinde `DATABASE_URL` gerekir). Yeni tabloda RLS aynı migration'da açılır.
+- Supabase geliştirme projesi: `loan-approval-dev`, ref `ddyrkkorvilbgzcmezkh` (Frankfurt).
 
 ## Git
 

@@ -4,7 +4,7 @@ Kişisel ve kredi bilgilerine göre bir kredi başvurusunun onaylanma olasılı�
 
 > **Uyarı:** Bu araç bir ön değerlendirme sunar. Gerçek bir kredi başvurusu ya da banka kararı değildir. Model açık bir veri setiyle eğitilmiştir ve Türkiye'deki bankaların kriterlerini yansıtmaz.
 
-**Durum:** Faz 3 tamamlandı (tahmin API'si hazır); sırada veritabanı ve kimlik doğrulama — ayrıntılı plan için [PROJE_PLANI.md](PROJE_PLANI.md).
+**Durum:** Faz 4 tamamlandı (API, veritabanı ve kimlik doğrulama hazır); sırada frontend — ayrıntılı plan için [PROJE_PLANI.md](PROJE_PLANI.md).
 
 ## Yapı
 
