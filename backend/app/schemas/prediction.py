@@ -84,6 +84,9 @@ class FactorOut(BaseModel):
     impact: float = Field(description="Bu tahmindeki toplam mutlak katkı içindeki pay (0-1)")
 
 
+Band = Literal["yuksek", "sinirda", "dusuk"]
+
+
 class PredictionResponse(BaseModel):
     id: UUID
     created_at: datetime
@@ -91,6 +94,49 @@ class PredictionResponse(BaseModel):
     approved: bool
     probability: float
     threshold: float
-    band: Literal["yuksek", "sinirda", "dusuk"]
+    band: Band
     factors: list[FactorOut]
     low_confidence_fields: list[str]
+
+
+class PredictionInput(BaseModel):
+    """The stored inputs of a prediction, plus the derived ratio."""
+
+    person_age: int
+    person_education: str
+    person_income: float
+    person_emp_exp: int
+    person_home_ownership: str
+    loan_amnt: float
+    loan_intent: str
+    loan_int_rate: float
+    cb_person_cred_hist_length: int
+    credit_score: int
+    previous_loan_defaults_on_file: bool
+    loan_percent_income: float
+
+
+class PredictionDetail(PredictionResponse):
+    input: PredictionInput
+
+
+class PredictionListItem(BaseModel):
+    id: UUID
+    created_at: datetime
+    loan_amnt: float
+    loan_intent: str
+    probability: float
+    threshold: float
+    approved: bool
+    band: Band
+
+
+class PredictionListResponse(BaseModel):
+    items: list[PredictionListItem]
+    total: int
+    page: int
+    page_size: int
+
+
+class DeletedResponse(BaseModel):
+    deleted: int

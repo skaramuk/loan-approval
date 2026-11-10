@@ -16,3 +16,7 @@ Bu projedeki önemli değişiklikler bu dosyada tutulur. Biçim [Keep a Changelo
 - Faz 3: FastAPI uygulaması — `GET /health`, `GET /api/v1/model`, `POST /api/v1/predictions`
   (henüz kayıtsız ve girişsiz), metadata'dan okunan doğrulama kuralları, Türkçe ve tek biçimli
   hata yanıtları, CORS, Dockerfile ve CI'da Docker imajı duman testi.
+- Faz 4: Supabase Auth token doğrulaması (JWKS, ES256), `predictions` ve `model_versions`
+  tabloları (Alembic), tüm tablolarda Row Level Security, tahmin kaydı ve geçmiş uç noktaları
+  (`GET /predictions`, `GET|DELETE /predictions/{id}`, `DELETE /me/predictions`), kullanıcı
+  başına dakikada 20 tahmin sınırı.

@@ -5,11 +5,7 @@ from fastapi.testclient import TestClient
 
 from app.main import app
 
-
-@pytest.fixture(scope="module")
-def client():
-    with TestClient(app) as test_client:
-        yield test_client
+URL = "/api/v1/predictions"
 
 
 def details_by_field(response) -> dict[str, str]:
@@ -31,15 +27,16 @@ def test_health_reports_missing_model(client):
     bundle, app.state.bundle = app.state.bundle, None
     try:
         health = client.get("/health")
-        prediction = client.post("/api/v1/predictions", json={})
+        model = client.get("/api/v1/model")
     finally:
         app.state.bundle = bundle
     assert health.status_code == 503
     assert health.json()["model_loaded"] is False
-    assert prediction.status_code in {422, 503}
+    assert model.status_code == 503
+    assert model.json()["error"]["code"] == "model_unavailable"
 
 
-def test_model_info(client):
+def test_model_info_is_public(client):
     response = client.get("/api/v1/model")
     assert response.status_code == 200
     body = response.json()
@@ -56,8 +53,8 @@ def test_model_info(client):
     assert "person_gender" not in str(body["fields"])
 
 
-def test_create_prediction(client, application):
-    response = client.post("/api/v1/predictions", json=application)
+def test_create_prediction(client, auth_a, application):
+    response = client.post(URL, json=application, headers=auth_a)
     assert response.status_code == 201
     body = response.json()
 
@@ -74,9 +71,9 @@ def test_create_prediction(client, application):
     assert body["low_confidence_fields"] == []
 
 
-def test_prediction_with_previous_default_is_rejected(client, application):
+def test_prediction_with_previous_default_is_rejected(client, auth_a, application):
     response = client.post(
-        "/api/v1/predictions", json={**application, "previous_loan_defaults_on_file": True}
+        URL, json={**application, "previous_loan_defaults_on_file": True}, headers=auth_a
     )
     body = response.json()
     assert body["approved"] is False
@@ -106,16 +103,16 @@ def test_prediction_with_previous_default_is_rejected(client, application):
         ("previous_loan_defaults_on_file", "belki", "Evet ya da hayır seçilmelidir."),
     ],
 )
-def test_validation_rules(client, application, field, value, expected):
-    response = client.post("/api/v1/predictions", json={**application, field: value})
+def test_validation_rules(client, auth_a, application, field, value, expected):
+    response = client.post(URL, json={**application, field: value}, headers=auth_a)
     assert response.status_code == 422
     assert response.json()["error"]["code"] == "validation_error"
     assert details_by_field(response) == {field: expected}
 
 
-def test_experience_must_fit_age(client, application):
+def test_experience_must_fit_age(client, auth_a, application):
     response = client.post(
-        "/api/v1/predictions", json={**application, "person_age": 25, "person_emp_exp": 11}
+        URL, json={**application, "person_age": 25, "person_emp_exp": 11}, headers=auth_a
     )
     assert response.status_code == 422
     assert details_by_field(response) == {
@@ -123,39 +120,39 @@ def test_experience_must_fit_age(client, application):
     }
 
     allowed = client.post(
-        "/api/v1/predictions", json={**application, "person_age": 25, "person_emp_exp": 10}
+        URL, json={**application, "person_age": 25, "person_emp_exp": 10}, headers=auth_a
     )
     assert allowed.status_code == 201
 
 
-def test_missing_field(client, application):
+def test_missing_field(client, auth_a, application):
     del application["credit_score"]
-    response = client.post("/api/v1/predictions", json=application)
+    response = client.post(URL, json=application, headers=auth_a)
     assert response.status_code == 422
     assert details_by_field(response) == {"credit_score": "Bu alan zorunludur."}
 
 
-def test_gender_is_rejected(client, application):
-    response = client.post("/api/v1/predictions", json={**application, "person_gender": "female"})
+def test_gender_is_rejected(client, auth_a, application):
+    response = client.post(URL, json={**application, "person_gender": "female"}, headers=auth_a)
     assert response.status_code == 422
     assert details_by_field(response) == {"person_gender": "Bu alan kabul edilmiyor."}
 
 
-def test_derived_field_cannot_be_supplied(client, application):
-    response = client.post("/api/v1/predictions", json={**application, "loan_percent_income": 0.01})
+def test_derived_field_cannot_be_supplied(client, auth_a, application):
+    response = client.post(URL, json={**application, "loan_percent_income": 0.01}, headers=auth_a)
     assert response.status_code == 422
     assert "loan_percent_income" in details_by_field(response)
 
 
-def test_low_confidence_fields(client, application):
+def test_low_confidence_fields(client, auth_a, application):
     response = client.post(
-        "/api/v1/predictions", json={**application, "person_age": 70, "person_emp_exp": 40}
+        URL, json={**application, "person_age": 70, "person_emp_exp": 40}, headers=auth_a
     )
     assert response.status_code == 201
     assert {"person_age", "person_emp_exp"} <= set(response.json()["low_confidence_fields"])
 
 
-def test_errors_share_one_shape(client):
+def test_errors_share_one_shape(client, auth_a):
     not_found = client.get("/api/v1/does-not-exist")
     assert not_found.status_code == 404
     assert not_found.json() == {
@@ -167,19 +164,19 @@ def test_errors_share_one_shape(client):
     assert wrong_method.json()["error"]["code"] == "method_not_allowed"
 
     bad_json = client.post(
-        "/api/v1/predictions", content="{not json", headers={"Content-Type": "application/json"}
+        URL, content="{not json", headers={**auth_a, "Content-Type": "application/json"}
     )
     assert bad_json.status_code == 422
     assert bad_json.json()["error"]["code"] == "validation_error"
 
 
-def test_unexpected_errors_are_hidden(application, monkeypatch):
+def test_unexpected_errors_are_hidden(client, auth_a, application, monkeypatch):
     def boom(*_args, **_kwargs):
         raise RuntimeError("secret internal detail")
 
     monkeypatch.setattr("app.api.predictions.predict", boom)
     with TestClient(app, raise_server_exceptions=False) as failing_client:
-        response = failing_client.post("/api/v1/predictions", json=application)
+        response = failing_client.post(URL, json=application, headers=auth_a)
     assert response.status_code == 500
     assert response.json()["error"]["code"] == "internal_error"
     assert "secret" not in response.text
@@ -187,21 +184,22 @@ def test_unexpected_errors_are_hidden(application, monkeypatch):
 
 def test_cors_allows_only_configured_origin(client):
     allowed = client.options(
-        "/api/v1/predictions",
-        headers={"Origin": "http://localhost:3000", "Access-Control-Request-Method": "POST"},
+        URL, headers={"Origin": "http://localhost:3000", "Access-Control-Request-Method": "POST"}
     )
     assert allowed.headers.get("access-control-allow-origin") == "http://localhost:3000"
 
     blocked = client.options(
-        "/api/v1/predictions",
-        headers={"Origin": "https://evil.example", "Access-Control-Request-Method": "POST"},
+        URL, headers={"Origin": "https://evil.example", "Access-Control-Request-Method": "POST"}
     )
     assert "access-control-allow-origin" not in blocked.headers
 
 
-def test_inputs_are_not_logged(client, application, caplog):
+def test_inputs_and_tokens_are_not_logged(client, auth_a, application, caplog):
     unusual = {**application, "person_income": 123457, "credit_score": 777}
     with caplog.at_level(logging.DEBUG):
-        client.post("/api/v1/predictions", json=unusual)
+        client.post(URL, json=unusual, headers=auth_a)
+        client.get(URL, headers={"Authorization": "Bearer not-a-real-token-xyz"})
     assert "123457" not in caplog.text
     assert "777" not in caplog.text
+    assert auth_a["Authorization"].split()[1] not in caplog.text
+    assert "not-a-real-token-xyz" not in caplog.text

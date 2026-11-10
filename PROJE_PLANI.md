@@ -247,16 +247,19 @@ Kullanıcı hesapları Supabase Auth tarafından `auth.users` tablosunda tutulur
 | `threshold` | numeric(5,4) | tahmin anındaki eşik |
 | `approved` | boolean | |
 | `factors` | jsonb | açıklama listesi |
+| `low_confidence_fields` | jsonb | tahmin anındaki düşük güven alanları (Faz 4'te eklendi) |
 
 İndeks: `(user_id, created_at DESC)`.
+
+RLS politikaları: `predictions` üzerinde `authenticated` rolü için yalnızca SELECT ve DELETE (`auth.uid() = user_id`). INSERT/UPDATE politikası bilerek yoktur; tahminleri yalnızca backend yazar. Alembic'in `alembic_version` tablosunda da RLS açıktır (politikasız = erişim yok).
 
 ### `model_versions`
 
 `version` (PK), `algorithm`, `trained_at`, `metrics` (jsonb), `threshold`, `data_sha256`, `is_active`. Backend açılışta yüklü model paketini bu tabloya kaydeder.
 
-### `profiles` (isteğe bağlı, v1'de sade)
+### `profiles` (isteğe bağlı — v1'de oluşturulmadı)
 
-`id` (uuid, PK, `auth.users(id)`), `full_name`, `created_at`.
+`id` (uuid, PK, `auth.users(id)`), `full_name`, `created_at`. Faz 4'te eklenmedi: ad-soyad gerekirse Supabase Auth'un kullanıcı metadata'sında tutulabilir. Ayrı tablo ihtiyacı doğarsa yeni bir migration ile eklenir.
 
 ### Güvenlik
 
@@ -264,7 +267,8 @@ Kullanıcı hesapları Supabase Auth tarafından `auth.users` tablosunda tutulur
 - Politika: kullanıcı yalnızca `user_id = auth.uid()` olan satırları görebilir. `model_versions` yalnızca okunabilir.
 - RLS politikaları da Alembic migration'ı içinde SQL olarak yazılır.
 - Backend veritabanına sunucu tarafı bağlantı dizgisiyle bağlanır; bu dizgi ve servis anahtarları frontend'e asla verilmez.
-- Supabase projesi AB bölgesinde (Frankfurt) açılır.
+- Supabase projesi AB bölgesinde (Frankfurt) açılır. Geliştirme projesi: `loan-approval-dev` (ref `ddyrkkorvilbgzcmezkh`, eu-central-1).
+- Backend, Supabase'e **session pooler** (port 5432) üzerinden bağlanır; access token'lar projenin JWKS adresindeki açık anahtarlarla (ES256) doğrulanır, JWT secret kullanılmaz.
 - Geliştirme ve canlı için **ayrı** Supabase projeleri kullanılır.
 
 ---
