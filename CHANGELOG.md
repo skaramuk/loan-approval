@@ -6,3 +6,7 @@ Bu projedeki önemli değişiklikler bu dosyada tutulur. Biçim [Keep a Changelo
 
 ### Added
 - Faz 0: repo iskeleti, klasör yapısı, `README.md`, `CLAUDE.md`, CI iskeleti.
+- Faz 1: `ml/` projesi (uv), ortak veri/pipeline/metrik modülü (`loan_ml`), dört analiz notebook'u
+  ve `ml/reports/phase1/` altında seçilen hiperparametreler ile test raporu.
+  Nihai model: XGBoost, kalibrasyonsuz, eşik 0,461 — test ROC-AUC 0,978 (genel),
+  0,938 (`previous_loan_defaults_on_file = No` alt grubu).

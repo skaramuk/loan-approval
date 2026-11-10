@@ -37,8 +37,11 @@ Kredi ön değerlendirme ürünü (monorepo: `ml/`, `backend/`, `frontend/`). Te
 Henüz kurulmamış bölümler ilgili fazda eklenecek.
 
 ```powershell
-# ml (Faz 1-2)
-# cd ml; uv sync; uv run python src/train.py
+# ml
+cd ml; uv sync
+uv run ruff check src; uv run ruff format --check src
+uv run jupyter nbconvert --to notebook --execute --inplace notebooks/01_eda.ipynb
+# Faz 2: uv run python src/train.py
 
 # backend (Faz 3+)
 # cd backend; uv run ruff check .; uv run ruff format --check .; uv run pytest
