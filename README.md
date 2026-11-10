@@ -21,15 +21,13 @@ XGBoost · scikit-learn · FastAPI · PostgreSQL (Supabase) · Supabase Auth · 
 
 ## Veri seti
 
-`loan_data.csv` — 45.000 satır, 14 kolon. Kaynak: Kaggle (_bağlantı ve lisans bilgisi eklenecek_).
+`ml/data/raw/loan_data.csv` — 45.000 satır, 14 kolon.
 
-Lisans netleşene kadar dosya repoda tutulmaz. Dosyayı indirip şuraya yerleştirin:
+- **Kaynak:** [Loan Approval Classification Dataset](https://www.kaggle.com/datasets/taweilo/loan-approval-classification-data) — Ta-wei Lo, Kaggle
+- **Lisans:** [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+- **SHA-256 (ilk 16 karakter):** `67cca604cd71cbd6`
 
-```
-ml/data/raw/loan_data.csv
-```
-
-Beklenen SHA-256 (ilk 16 karakter): `67cca604cd71cbd6`
+Dosya değiştirilmeden repoda tutulur.
 
 ## Geliştirme
 

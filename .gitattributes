@@ -1,4 +1,6 @@
 * text=auto eol=lf
+# Raw data must stay byte-identical so its SHA-256 keeps matching.
+ml/data/raw/*.csv -text
 *.joblib binary
 *.png binary
 *.jpg binary

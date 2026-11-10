@@ -30,7 +30,7 @@ Kredi ön değerlendirme ürünü (monorepo: `ml/`, `backend/`, `frontend/`). Te
 
 - Windows + PowerShell (`&&` yok; `;` veya `if ($?) { ... }` kullan). Satır sonları LF (`.gitattributes`).
 - Python: `uv` (`pyproject.toml` + `uv.lock`). Frontend: `npm`.
-- Veri: `ml/data/raw/loan_data.csv` — lisans netleşene kadar Git dışında (`.gitignore`).
+- Veri: `ml/data/raw/loan_data.csv` — Apache 2.0 lisanslı, repoda tutulur; ham dosya değiştirilmez.
 
 ## Komutlar
 
