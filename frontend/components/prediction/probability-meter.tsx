@@ -1,6 +1,6 @@
 import type { Band } from "@/components/prediction/decision-badge";
 import { formatPercent } from "@/lib/bicim";
-import { TASARIM } from "@/lib/metinler";
+import { SONUC } from "@/lib/metinler";
 import { cn } from "@/lib/utils";
 
 const FILL: Record<Band, string> = {
@@ -19,7 +19,7 @@ export function ProbabilityMeter({
   threshold: number;
   band: Band;
 }) {
-  const labels = TASARIM.sonuc;
+  const labels = SONUC;
   const percent = Math.round(probability * 100);
   const thresholdPercent = Math.round(threshold * 100);
 
