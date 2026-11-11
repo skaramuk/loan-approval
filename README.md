@@ -4,7 +4,9 @@ Kişisel ve kredi bilgilerine göre bir kredi başvurusunun onaylanma olasılı�
 
 > **Uyarı:** Bu araç bir ön değerlendirme sunar. Gerçek bir kredi başvurusu ya da banka kararı değildir. Model açık bir veri setiyle eğitilmiştir ve Türkiye'deki bankaların kriterlerini yansıtmaz.
 
-**Durum:** Faz 5 tamamlandı (arayüz hazır, uçtan uca akış çalışıyor); sırada canlıya alma — ayrıntılı plan için [PROJE_PLANI.md](PROJE_PLANI.md).
+**Canlı:** [loan-approval-navy.vercel.app](https://loan-approval-navy.vercel.app) · API: [loan-approval-api-m2wc.onrender.com](https://loan-approval-api-m2wc.onrender.com/health)
+
+**Durum:** Faz 6 (canlıya alma) sürüyor — ayrıntılı plan için [PROJE_PLANI.md](PROJE_PLANI.md).
 
 ## Yapı
 

@@ -6,8 +6,8 @@ Bu belge, uygulamayı canlı ortama kurmak için gereken adımları sırasıyla 
 
 | Parça | Geliştirme | Canlı |
 |---|---|---|
-| Frontend | `localhost:3000` | Vercel, `main` dalı (bölge `fra1`) |
-| Backend | `localhost:8000` | Render, `main` dalı, `render.yaml` (bölge Frankfurt) |
+| Frontend | `localhost:3000` | [loan-approval-navy.vercel.app](https://loan-approval-navy.vercel.app) — Vercel, `main` dalı, Root Directory `frontend` (bölge `fra1`) |
+| Backend | `localhost:8000` | [loan-approval-api-m2wc.onrender.com](https://loan-approval-api-m2wc.onrender.com/health) — Render, `main` dalı, `render.yaml` (bölge Frankfurt) |
 | Veritabanı + Auth | Supabase `loan-approval-dev` (`ddyrkkorvilbgzcmezkh`) | Supabase `loan-approval-prod` (`uoeenjzyywdewjmajloj`) |
 
 İki Supabase projesi de Frankfurt'tadır. Canlı veritabanının şeması (`0001` migration'ı) ve RLS politikaları kurulmuştur.
@@ -101,6 +101,14 @@ Supabase panelinde `loan-approval-prod` projesinde:
 
 - **Çalışırlık:** UptimeRobot ya da Better Stack gibi ücretsiz bir servisle `/health` adresi 5 dakikada bir kontrol edilebilir. Not: ücretsiz Render planında bu kontrol servisi uyumaktan alıkoyar ve aylık 750 ücretsiz saatin çoğunu kullanır; tek servis için yeterlidir.
 - **Hata takibi (isteğe bağlı):** Sentry henüz kurulmadı.
+
+## Bilinen tuzaklar
+
+- **Render yolları:** `rootDir` ayarlıyken `dockerfilePath` ve `dockerContext` kök klasörün içinden çözülür (`./Dockerfile`, `.`), depo kökünden değil.
+- **Render veritabanı şifresi:** `DATABASE_URL` içindeki şifrede `@ # / : ? %` gibi karakterler adresi bozar; yalnızca harf ve rakam kullanın. Kullanıcı adı `postgres.<proje-ref>` biçimindedir.
+- **Vercel boş yayın:** yayın 2–3 saniyede "Ready" oluyor ve site 404 veriyorsa Root Directory `frontend` ayarlı değildir; normal bir derleme ~1 dakika sürer.
+- **Vercel değişken türü:** `NEXT_PUBLIC_` ile başlayan değişkenler tarayıcıya gönderilir; Vercel'de **Config** türünde eklenir.
+- **Vercel iki adımlı doğrulama:** panelde ayar değiştirmek ve elle yeniden yayınlamak doğrulama ister. Git'ten gelen yayınlar istemez; `main`'e birleştirilen her PR yeni bir canlı yayın başlatır.
 
 ## Migration'lar
 
