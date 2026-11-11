@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     app_env: str = "development"
-    app_version: str = "0.2.0"
+    app_version: str = "1.0.0"
     model_version: str = DEFAULT_MODEL_VERSION
     # Comma-separated list of allowed frontend origins. No wildcard in production.
     cors_origins: Annotated[list[str], NoDecode] = ["http://localhost:3000"]
