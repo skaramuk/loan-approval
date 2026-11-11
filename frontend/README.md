@@ -6,7 +6,7 @@ Next.js (App Router, TypeScript) + Tailwind CSS + shadcn/ui.
 npm install
 npm run dev      # http://localhost:3000
 npm run lint
-npx tsc --noEmit
+npm run typecheck
 npm run build
 ```
 

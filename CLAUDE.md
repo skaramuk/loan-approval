@@ -79,5 +79,5 @@ docker build -t loan-approval-backend .; docker run --rm -p 8000:8000 loan-appro
 # frontend
 cd frontend; npm install
 npm run dev                                   # http://localhost:3000
-npm run lint; npx tsc --noEmit; npm run build
+npm run lint; npm run typecheck; npm run build
 ```

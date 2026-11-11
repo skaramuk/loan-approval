@@ -82,7 +82,8 @@ jobs:
         run: npm run lint
       - name: Type check
         if: steps.project.outputs.exists == 'true'
-        run: npx tsc --noEmit
+        # Route types (PageProps, LayoutProps) are generated, not committed.
+        run: npm run typecheck
       - name: Build
         if: steps.project.outputs.exists == 'true'
         run: npm run build
