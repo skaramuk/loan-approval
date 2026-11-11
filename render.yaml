@@ -9,8 +9,9 @@ services:
     plan: free # 512 MB, sleeps after 15 min idle. Upgrade to "starter" before public launch.
     region: frankfurt # same region as the Supabase projects
     rootDir: backend
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
+    # With rootDir set, Render resolves these paths inside rootDir, not from the repo root.
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
     healthCheckPath: /health
     branch: main # main is production (PROJE_PLANI.md, section 9)
     autoDeployTrigger: checksPass # deploy only after CI is green
