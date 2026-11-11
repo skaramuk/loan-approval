@@ -82,7 +82,13 @@ jobs:
         run: npm run lint
       - name: Type check
         if: steps.project.outputs.exists == 'true'
-        run: npx tsc --noEmit
+        # Route types (PageProps, LayoutProps) are generated, not committed.
+        run: npm run typecheck
       - name: Build
         if: steps.project.outputs.exists == 'true'
         run: npm run build
+        env:
+          # Public placeholders: the build only needs the variables to exist.
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_placeholder
+          NEXT_PUBLIC_API_URL: http://localhost:8000
