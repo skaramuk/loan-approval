@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import { NewPredictionButton, PredictionRows, RowsSkeleton } from "@/components/panel/history";
 import { Disclaimer, PageHeading } from "@/components/site-chrome";
@@ -14,6 +15,7 @@ import { api, queryKeys } from "@/lib/api";
 import { formatNumber, formatPercent } from "@/lib/bicim";
 import { GECMIS, OZET } from "@/lib/metinler";
 import { ROUTES } from "@/lib/routes";
+import { createClient } from "@/lib/supabase/client";
 
 const RECENT = { page: 1, pageSize: 5 };
 const APPROVED = { page: 1, pageSize: 1, approved: true };
@@ -30,7 +32,25 @@ function Stat({ label, value, hint }: { label: string; value: React.ReactNode; h
   );
 }
 
-export function Overview({ greeting }: { greeting: React.ReactNode }) {
+/** The signed-in address, read from the local session (no network request). */
+function useUserEmail(): string | null {
+  const [email, setEmail] = useState<string | null>(null);
+  useEffect(() => {
+    let active = true;
+    createClient()
+      .auth.getSession()
+      .then(({ data }) => {
+        if (active) setEmail(data.session?.user.email ?? null);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+  return email;
+}
+
+export function Overview() {
+  const email = useUserEmail();
   const recent = useQuery({
     queryKey: queryKeys.predictionList(RECENT),
     queryFn: () => api.listPredictions(RECENT),
@@ -49,7 +69,7 @@ export function Overview({ greeting }: { greeting: React.ReactNode }) {
     <>
       <PageHeading
         title={OZET.baslik}
-        description={greeting}
+        description={email ? `${OZET.hosgeldin}, ${email}` : OZET.hosgeldin}
         action={<NewPredictionButton />}
       />
 

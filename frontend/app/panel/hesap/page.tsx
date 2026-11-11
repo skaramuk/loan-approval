@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { Suspense } from "react";
 
 import { Account } from "@/components/panel/account";
@@ -10,6 +11,8 @@ import { createClient } from "@/lib/supabase/server";
 export const metadata: Metadata = { title: HESAP.baslik };
 
 async function Profile() {
+  // Session checks read the clock; opt this subtree into request-time rendering first.
+  await connection();
   const supabase = await createClient();
   // getUser asks the Auth server for the current record (email, sign-up date).
   const { data } = await supabase.auth.getUser();

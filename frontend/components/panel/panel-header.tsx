@@ -42,10 +42,11 @@ export function PanelHeader() {
         <Logo href={ROUTES.panel} />
         <div className="flex items-center gap-1">
           <ThemeToggle />
-          <Button variant="ghost" onClick={signOut}>
+          <Button variant="ghost" onClick={signOut} aria-label={NAV.cikis}>
             <LogOut aria-hidden />
-            <span className="hidden sm:inline">{NAV.cikis}</span>
-            <span className="sr-only sm:hidden">{NAV.cikis}</span>
+            <span className="hidden sm:inline" aria-hidden>
+              {NAV.cikis}
+            </span>
           </Button>
         </div>
       </div>

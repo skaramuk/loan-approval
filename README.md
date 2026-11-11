@@ -4,7 +4,7 @@ Kişisel ve kredi bilgilerine göre bir kredi başvurusunun onaylanma olasılı�
 
 > **Uyarı:** Bu araç bir ön değerlendirme sunar. Gerçek bir kredi başvurusu ya da banka kararı değildir. Model açık bir veri setiyle eğitilmiştir ve Türkiye'deki bankaların kriterlerini yansıtmaz.
 
-**Durum:** Faz 4 tamamlandı (API, veritabanı ve kimlik doğrulama hazır); sırada frontend — ayrıntılı plan için [PROJE_PLANI.md](PROJE_PLANI.md).
+**Durum:** Faz 5 tamamlandı (arayüz hazır, uçtan uca akış çalışıyor); sırada canlıya alma — ayrıntılı plan için [PROJE_PLANI.md](PROJE_PLANI.md).
 
 ## Yapı
 
@@ -48,4 +48,13 @@ uv run uvicorn app.main:app --reload
 
 API belgeleri sunucu çalışırken `http://127.0.0.1:8000/docs` adresindedir. Ortam değişkenleri için `backend/.env.example` dosyasına bakın.
 
-Analiz notebook'ları `ml/notebooks/` altındadır. Frontend adımları ilgili faz tamamlandığında eklenecektir.
+Arayüz için ayrı bir terminalde (backend çalışırken):
+
+```powershell
+cd frontend
+npm install
+Copy-Item .env.example .env.local   # değerleri Supabase projenize göre doldurun
+npm run dev                          # http://localhost:3000
+```
+
+Analiz notebook'ları `ml/notebooks/` altındadır.

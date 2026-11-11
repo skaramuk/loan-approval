@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import { Suspense } from "react";
 
 import { NewPasswordForm } from "@/components/auth/auth-forms";
@@ -12,6 +13,8 @@ export const metadata: Metadata = { title: AUTH.yenile.baslik };
 
 // Reached through the emailed link, which signs the user in via /auth/onay first.
 async function GuardedForm() {
+  // Session checks read the clock; opt this subtree into request-time rendering first.
+  await connection();
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
   if (!data?.claims) redirect(`${ROUTES.giris}?hata=baglanti`);

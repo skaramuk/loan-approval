@@ -20,3 +20,7 @@ Bu projedeki önemli değişiklikler bu dosyada tutulur. Biçim [Keep a Changelo
   tabloları (Alembic), tüm tablolarda Row Level Security, tahmin kaydı ve geçmiş uç noktaları
   (`GET /predictions`, `GET|DELETE /predictions/{id}`, `DELETE /me/predictions`), kullanıcı
   başına dakikada 20 tahmin sınırı.
+- Faz 5: Next.js arayüzü — tasarım sistemi (açık/koyu tema), Supabase Auth ile giriş, kayıt ve
+  şifre sıfırlama, giriş koruması (`proxy.ts`), üç adımlı değerlendirme formu ve sonuç ekranı,
+  geçmiş (filtre, sayfalama, detay, silme), özet ve hesap sayfaları, tanıtım sayfası, model
+  kartı ve taslak yasal metinler.
