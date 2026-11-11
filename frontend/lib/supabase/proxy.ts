@@ -14,9 +14,18 @@ const GUEST_ONLY = [ROUTES.giris, ROUTES.kayit, ROUTES.sifremiUnuttum];
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  if (!url || !key) {
+    // A missing deployment setting must not take every page down with a 500:
+    // public pages still render, and sign-in fails visibly on its own pages instead.
+    console.error("Supabase is not configured: NEXT_PUBLIC_SUPABASE_URL / _PUBLISHABLE_KEY missing");
+    return response;
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    url,
+    key,
     {
       cookies: {
         getAll() {
