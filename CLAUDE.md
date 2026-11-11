@@ -37,7 +37,8 @@ Kredi ön değerlendirme ürünü (monorepo: `ml/`, `backend/`, `frontend/`). Te
 - Backend veritabanına RLS'i aşan sunucu rolüyle bağlanır: `Prediction` üzerindeki **her sorgu `user_id` ile filtrelenmelidir** (`app/services/history.py`). Başkasının kaydı için 404 döner.
 - Testler SQLite ve yerel üretilmiş ES256 anahtarıyla çalışır; gerçek veritabanına ya da Supabase'e bağlanmaz.
 - Migration: `uv run alembic upgrade head` (`backend/.env` içinde `DATABASE_URL` gerekir). Yeni tabloda RLS aynı migration'da açılır.
-- Supabase geliştirme projesi: `loan-approval-dev`, ref `ddyrkkorvilbgzcmezkh` (Frankfurt).
+- Supabase geliştirme projesi: `loan-approval-dev`, ref `ddyrkkorvilbgzcmezkh` (Frankfurt). Canlı: `loan-approval-prod`, ref `uoeenjzyywdewjmajloj` (Frankfurt). Canlıya yazan her işlem (migration, SQL) Semih'e sorulmadan yapılmaz.
+- Canlı ortam: frontend Vercel (`frontend/vercel.json`), backend Render (`render.yaml`), ikisi de `main` dalından yayınlanır. Adımlar: `docs/canliya-alma.md`.
 
 ## Frontend
 

@@ -24,3 +24,6 @@ Bu projedeki önemli değişiklikler bu dosyada tutulur. Biçim [Keep a Changelo
   şifre sıfırlama, giriş koruması (`proxy.ts`), üç adımlı değerlendirme formu ve sonuç ekranı,
   geçmiş (filtre, sayfalama, detay, silme), özet ve hesap sayfaları, tanıtım sayfası, model
   kartı ve taslak yasal metinler.
+- Faz 6 (hazırlık): canlı Supabase projesi (şema + RLS), Render Blueprint (`render.yaml`),
+  Vercel bölge ayarı, güvenlik başlıkları, Türkçe e-posta şablonları ve canlıya alma rehberi
+  (`docs/canliya-alma.md`); CI eylemleri güncel sürümlere yükseltildi.

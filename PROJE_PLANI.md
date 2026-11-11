@@ -269,7 +269,7 @@ RLS politikaları: `predictions` üzerinde `authenticated` rolü için yalnızca
 - Backend veritabanına sunucu tarafı bağlantı dizgisiyle bağlanır; bu dizgi ve servis anahtarları frontend'e asla verilmez.
 - Supabase projesi AB bölgesinde (Frankfurt) açılır. Geliştirme projesi: `loan-approval-dev` (ref `ddyrkkorvilbgzcmezkh`, eu-central-1).
 - Backend, Supabase'e **session pooler** (port 5432) üzerinden bağlanır; access token'lar projenin JWKS adresindeki açık anahtarlarla (ES256) doğrulanır, JWT secret kullanılmaz.
-- Geliştirme ve canlı için **ayrı** Supabase projeleri kullanılır.
+- Geliştirme ve canlı için **ayrı** Supabase projeleri kullanılır. Canlı proje: `loan-approval-prod` (ref `uoeenjzyywdewjmajloj`, eu-central-1); şema ve RLS 11 Kasım 2026'da uygulandı.
 
 ---
 
@@ -449,7 +449,7 @@ Her faz ayrı `feature/*` dallarında yürütülür ve kabul ölçütleri sağla
 1. **Para birimi ve kredi skoru ölçeği.** v1 planı: USD ve 390–850 ölçeği, arayüzde açıkça etiketli. Alternatif: TL girişi alıp kurla çevirmek — ancak Türkiye'deki gelir dağılımı ve Findeks skoru (1–1900) veri setiyle örtüşmediği için tahminler yanıltıcı olur. Öneri: v1'de USD ile kal.
 2. **Marka adı ve alan adı.** "Loan Approval" çalışma adı; canlıya almadan önce kesinleşmeli.
 3. ~~**Kaggle veri seti bağlantısı ve lisansı.**~~ Çözüldü (10 Kasım 2026): `taweilo/loan-approval-classification-data`, Apache 2.0 — bkz. Bölüm 2.
-4. **Backend barındırma servisi.** Faz 6'da güncel fiyat ve ücretsiz katmanlara göre seçilecek.
+4. ~~**Backend barındırma servisi.**~~ **Karar (Semih, 11 Kasım 2026): Render, ücretsiz plan, Frankfurt** (`render.yaml`). Model yüklüyken ~320 MB bellek kullanıldığı ölçüldü; 512 MB yeterli. Ücretsiz plan 15 dk boşta kalınca uyur; gerçek kullanıcıya açmadan önce Starter plana geçilecek. Vercel'de Python fonksiyonu olarak çalıştırma değerlendirildi; paket boyutu sınırı, soğuk başlangıç ve bellek içi hız sınırı nedeniyle seçilmedi. Alan adı: şimdilik Vercel'in ücretsiz adresi kullanılacak (açık konu 2 sürüyor). Kurulum adımları: `docs/canliya-alma.md`.
 5. **Google ile giriş.** v1'de yok; istenirse Faz 5'te eklenebilir.
 6. ~~**Etiketin yönü.**~~ **Karar (Semih, 10 Kasım 2026): seçenek (a)** — etiket belgelendiği gibi (1 = onay) kullanılır; sınırlama model kartında ve arayüzde açıkça belirtilir (bkz. Bölüm 2 madde 7 ve Bölüm 11). Bulgu: Veri seti `loan_status = 1` değerini "onay" olarak belgeliyor, ancak özelliklerle ilişkisi temerrüt etiketi gibi davranıyor: faiz oranı ve kredi/gelir oranı arttıkça, gelir azaldıkça "onay" oranı **artıyor**; kiracılar ev sahiplerinden daha sık "onaylanıyor". Model bunu aynen öğrenir ve arayüzde "geliriniz yüksek olduğu için onay olasılığınız düştü" gibi sezgiye ters açıklamalar çıkar. Seçenekler: (a) etiketi belgelendiği gibi kullanıp sınırlamayı model kartında ve arayüzde açıkça belirtmek, (b) ürünü "risk değerlendirmesi" olarak yeniden konumlandırmak, (c) farklı bir veri setine geçmek. Ayrıntı: `ml/notebooks/01_eda.ipynb`, Bölüm 7.
 
