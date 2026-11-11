@@ -4,6 +4,11 @@ Bu projedeki önemli değişiklikler bu dosyada tutulur. Biçim [Keep a Changelo
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-11
+
+İlk canlı sürüm: arayüz https://loan-approval-navy.vercel.app, API https://loan-approval-api-m2wc.onrender.com
+(model v1.0.0, uygulama v1.0.0).
+
 ### Added
 - Faz 0: repo iskeleti, klasör yapısı, `README.md`, `CLAUDE.md`, CI iskeleti.
 - Faz 1: `ml/` projesi (uv), ortak veri/pipeline/metrik modülü (`loan_ml`), dört analiz notebook'u

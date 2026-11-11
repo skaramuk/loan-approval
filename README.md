@@ -6,7 +6,7 @@ Kişisel ve kredi bilgilerine göre bir kredi başvurusunun onaylanma olasılı�
 
 **Canlı:** [loan-approval-navy.vercel.app](https://loan-approval-navy.vercel.app) · API: [loan-approval-api-m2wc.onrender.com](https://loan-approval-api-m2wc.onrender.com/health)
 
-**Durum:** Faz 6 (canlıya alma) sürüyor — ayrıntılı plan için [PROJE_PLANI.md](PROJE_PLANI.md).
+**Durum:** v1.0.0 canlıda (Faz 6 tamamlandı); sırada cila ve portföy (Faz 7) — ayrıntılı plan için [PROJE_PLANI.md](PROJE_PLANI.md).
 
 ## Yapı
 
