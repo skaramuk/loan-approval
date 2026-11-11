@@ -1,0 +1,34 @@
+# Render Blueprint for the backend API (https://render.com/docs/blueprint-spec).
+# Create it once from the Render dashboard: New > Blueprint > this repository.
+# Render prompts for every variable marked `sync: false`; their values never live in Git.
+
+services:
+  - type: web
+    name: loan-approval-api
+    runtime: docker
+    plan: free # 512 MB, sleeps after 15 min idle. Upgrade to "starter" before public launch.
+    region: frankfurt # same region as the Supabase projects
+    rootDir: backend
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    branch: main # main is production (PROJE_PLANI.md, section 9)
+    autoDeployTrigger: checksPass # deploy only after CI is green
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: MODEL_VERSION
+        value: 1.0.0
+      - key: PREDICTION_RATE_LIMIT
+        value: 20/minute
+      # loan-approval-prod (public URL, not a secret)
+      - key: SUPABASE_URL
+        value: https://uoeenjzyywdewjmajloj.supabase.co
+      # The Vercel production URL, e.g. https://loan-approval.vercel.app (no trailing slash)
+      - key: CORS_ORIGINS
+        sync: false
+      # SECRET: Supabase "Session pooler" connection string of loan-approval-prod
+      - key: DATABASE_URL
+        sync: false
