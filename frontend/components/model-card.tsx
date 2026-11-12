@@ -27,7 +27,8 @@ const METRIC_ROWS: Array<keyof typeof MODEL_KARTI.metrikler.satirlar> = [
 ];
 
 function metric(set: MetricSet, key: keyof MetricSet): string {
-  return key === "n" ? formatNumber(set[key]) : formatNumber(set[key], 3);
+  // Metrics always show three decimals so the columns read evenly (0,940 rather than 0,94).
+  return key === "n" ? formatNumber(set[key]) : formatNumber(set[key], 3, 3);
 }
 
 /** Live facts about the active model, read from the backend so the page never goes stale. */
