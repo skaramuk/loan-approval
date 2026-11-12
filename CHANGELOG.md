@@ -4,6 +4,13 @@ Bu projedeki önemli değişiklikler bu dosyada tutulur. Biçim [Keep a Changelo
 
 ## [Unreleased]
 
+### Added
+- Faz 7: portföy cilası — yeniden yazılan `README.md` (ekran görüntüleri, demo GIF'i, mimari
+  şeması, kalite bölümü), `docs/mimari.md`, `docs/model-karti.md` ve `docs/screenshots/`.
+
+### Changed
+- Model kartı sayfasında metrikler üç ondalıkla gösteriliyor (0,940 yerine 0,94 görünmüyor).
+
 ## [1.0.0] - 2026-11-11
 
 İlk canlı sürüm: arayüz https://loan-approval-navy.vercel.app, API https://loan-approval-api-m2wc.onrender.com
