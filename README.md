@@ -78,8 +78,7 @@ XGBoost; Logistic Regression, Random Forest ve LightGBM ile aynı test setinde k
 | `ml/` | Veri analizi (4 notebook), ortak kod (`loan_ml`), eğitim scripti, raporlar |
 | `backend/` | FastAPI servisi, model paketi, Alembic migration'ları, testler |
 | `frontend/` | Next.js arayüzü |
-| `docs/` | [Mimari](docs/mimari.md), [model kartı](docs/model-karti.md), [canlıya alma rehberi](docs/canliya-alma.md), ekran görüntüleri |
-| `PROJE_PLANI.md` | Kararlar, fazlar ve gerekçeler |
+| `docs/` | [Mimari](docs/mimari.md), [model kartı](docs/model-karti.md), [tasarım kararları](docs/tasarim-kararlari.md), [canlıya alma rehberi](docs/canliya-alma.md), ekran görüntüleri |
 
 ## Kalite
 
