@@ -1,6 +1,6 @@
 # Mimari
 
-Bu belge sistemin parçalarını ve aralarındaki veri akışını anlatır. Karar gerekçeleri için [PROJE_PLANI.md](../PROJE_PLANI.md), canlıya alma adımları için [canliya-alma.md](canliya-alma.md) dosyasına bakın.
+Bu belge sistemin parçalarını ve aralarındaki veri akışını anlatır. Karar gerekçeleri için [tasarim-kararlari.md](tasarim-kararlari.md), canlıya alma adımları için [canliya-alma.md](canliya-alma.md) dosyasına bakın.
 
 ## Çalışma zamanı
 

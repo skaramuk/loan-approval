@@ -1,6 +1,6 @@
 # Model kartı — v1.0.0
 
-Canlı sürümü [loan-approval-navy.vercel.app/model](https://loan-approval-navy.vercel.app/model) adresinde, metrikler API'den (`GET /api/v1/model`) okunarak gösterilir. Bu belge aynı bilgilerin ayrıntılı halidir. Ham sonuçlar `ml/reports/phase1/` altındadır; model paketi `backend/app/ml_artifacts/v1.0.0/` içindedir.
+Canlı sürümü [loan-approval-navy.vercel.app/model](https://loan-approval-navy.vercel.app/model) adresinde, metrikler API'den (`GET /api/v1/model`) okunarak gösterilir. Bu belge aynı bilgilerin ayrıntılı halidir. Ham sonuçlar `ml/reports/v1.0.0/` altındadır; model paketi `backend/app/ml_artifacts/v1.0.0/` içindedir.
 
 ## Özet
 
