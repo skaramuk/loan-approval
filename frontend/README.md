@@ -14,4 +14,4 @@ npm run build
 - Tasarım belirteçleri (renk, tipografi): `app/globals.css`
 - Tasarım sistemi önizlemesi: `/tasarim`
 
-Genel plan için depo kökündeki `PROJE_PLANI.md` dosyasına bakın.
+Genel bakış için depo kökündeki `README.md` dosyasına bakın.

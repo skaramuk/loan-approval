@@ -46,7 +46,7 @@ from loan_ml.evaluation import best_f1_threshold, evaluate
 from loan_ml.features import build_pipeline
 
 MODEL_VERSION = "1.0.0"
-PARAMS_PATH = ML_ROOT / "reports" / "phase1" / "best_params.json"
+PARAMS_PATH = ML_ROOT / "reports" / "v1.0.0" / "best_params.json"
 ARTIFACTS_ROOT = ML_ROOT.parent / "backend" / "app" / "ml_artifacts"
 XGB_FIXED = {
     "tree_method": "hist",
@@ -55,7 +55,7 @@ XGB_FIXED = {
     "eval_metric": "logloss",
 }
 
-# API input bounds (PROJE_PLANI.md 5.3). They stay inside the region the training data covers.
+# API input bounds. They stay inside the region the training data covers.
 INPUT_RANGES = {
     "person_age": {"min": 20, "max": 80, "integer": True},
     "person_income": {"min": 8000, "max": 1_000_000, "integer": False},
